@@ -3,14 +3,18 @@
 # Projekt Świat
 Bartosz Kąkol
 
-## Zmiany
+## Zmiany względem starego kodu
+Lista nie uwzględnia nowych funkcjonalności.
 - **Ogólnie**
   - `CMakeLists.txt` do ułatwienia kompilacji. 
-  - Dodano `const` tam gdzie to możliwe.
-  - Przeniesiono implementacje konstruktorów z plików `.h` do plików `.cpp`.
-  - Poprawiono skrótową składnię `for` i `if` niewykorzystującą klamer - jest nieczytelna, szczególnie przy nestowaniu.
+  - Dodano `const` **tam gdzie to możliwe**.
+  - Przeniesiono **implementacje konstruktorów** z plików `.h` do plików `.cpp`.
+  - Poprawiono **skrótową składnię** `for` i `if` **niewykorzystującą klamer** - jest nieczytelna, szczególnie przy nestowaniu.
+  - **Cast'y w stylu C** zostały zmienione na `static_cast` lub inny nowoczesny zamiennik.
+  - W wielu miejscach używane jest `std::unique_ptr` aby zapewnić **większe bezpieczeństwo pamięciowe**.
+  - Klasy `Organism`, `Animal` i `Plant` są teraz **częściowo lub całkowicie abstrakcyjne**.
 - `World`
-  - Zmiana `push_back` na `emplace_back` w celu optymalizacji dodawania obiektów do wektora.
-  - `makeTurn` używa biblioteki `random` do generowania liczb losowych, zamiast przestarzałego `srand`/`rand`.
+  - Zmiana `push_back` na `emplace_back` w celu **optymalizacji dodawania obiektów do wektora**.
+  - `makeTurn` używa biblioteki `random` do **generowania liczb losowych**, zamiast przestarzałego `srand`/`rand`.
 - `Organism`
-  - `species` zostało usunięte na rzecz `sign`.
+  - `species` zostało **usunięte** na rzecz `sign`.
