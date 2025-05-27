@@ -18,3 +18,4 @@ Lista nie uwzględnia nowych funkcjonalności.
   - `makeTurn` używa biblioteki `random` do **generowania liczb losowych**, zamiast przestarzałego `srand`/`rand`.
 - `Organism`
   - `species` zostało **usunięte** na rzecz `sign`.
+  - Każdy organizm **posiada swoje numeryczne ID** w polu `id` dla łatwiejszej identyfikacji.

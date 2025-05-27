@@ -14,6 +14,9 @@ struct AncestorHistoryItem
 
 class Organism
 {
+	/// Unikalny identyfikator organizmu w świecie.
+	int id;
+
 	/// Siła organizmu. Zwiększa się o <code>1</code> co turę.
 	int power;
 
@@ -37,7 +40,7 @@ class Organism
 
 public:
 	// Konstruktor "explicit"
-	Organism(int power, int initiative, int liveLength, int powerToReproduce, Position position, char sign);
+	Organism(char sign, int id, Position position, int power, int initiative, int liveLength, int powerToReproduce);
 
 	// Konstruktor kopiujący
 	Organism(const Organism& other);
@@ -57,14 +60,14 @@ public:
 	char getSign() const;
 	void setSign(char spec);
 
+	int getId() const;
+
 	std::vector<AncestorHistoryItem>& getAncestorsHistory();
 	void addAncestorHistoryItem(int births, int deaths);
 
-	virtual void behave(World& world);
-
-	std::string toString() const;
-
 	virtual void move(int dx, int dy);
+	virtual void behave(World& world);
+	std::string toString() const;
 
 	// Kopiujący operator przypisania
 	Organism& operator=(const Organism& other);

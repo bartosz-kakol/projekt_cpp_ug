@@ -2,10 +2,11 @@
 
 // Konstruktor "explicit"
 Organism::Organism(
-	const int power, const int initiative, const int liveLength, const int powerToReproduce, const Position position,
-	const char sign
+	const char sign, const int id, const Position position,
+	const int power, const int initiative, const int liveLength, const int powerToReproduce
 )
-    :
+	:
+	id(id),
 	power(power),
 	initiative(initiative),
 	liveLength(liveLength),
@@ -43,18 +44,6 @@ void Organism::setPosition(const Position position)
 	this->position = position;
 }
 
-std::string Organism::toString() const
-{
-	return "{ species: " + std::string(1, this->getSign()) +
-		", power: " + std::to_string(getPower()) +
-		", position: " + getPosition().toString() + "}";
-}
-
-void Organism::move(const int dx, const int dy)
-{
-	position.move(dx, dy);
-}
-
 char Organism::getSign() const
 {
 	return this->sign;
@@ -63,6 +52,11 @@ char Organism::getSign() const
 void Organism::setSign(const char spec)
 {
 	this->sign = spec;
+}
+
+int Organism::getId() const
+{
+	return this->id;
 }
 
 std::vector<AncestorHistoryItem>& Organism::getAncestorsHistory()
@@ -76,9 +70,23 @@ void Organism::addAncestorHistoryItem(const int births, const int deaths)
     this->ancestorsHistory.push_back(item);
 }
 
+void Organism::move(const int dx, const int dy)
+{
+	position.move(dx, dy);
+}
+
 void Organism::behave(World& world)
 {
-	std::cout << "Domyślny behave()!!!" << std::endl;
+	power++;
+	liveLength--;
+
+}
+
+std::string Organism::toString() const
+{
+	return "{ species: " + std::string(1, this->getSign()) +
+		", power: " + std::to_string(getPower()) +
+		", position: " + getPosition().toString() + "}";
 }
 
 // Kopiujący operator przypisania

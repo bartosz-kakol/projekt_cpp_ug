@@ -22,4 +22,8 @@ add_executable(projekt_swiat_bartosz_kakol
         AnimalImpl/Sheep.h
         AnimalImpl/Sheep.cpp
         Behavior.cpp
-        Behavior.h)
+        Behavior.h
+        Action.cpp
+        Action.h
+        ActionImpl/MoveRandomly.cpp
+        ActionImpl/MoveRandomly.h)

@@ -1,7 +1,7 @@
 #include "Plant.h"
 
-Plant::Plant(const Position position, const int liveLength, const int powerToReproduce, const char sign)
-	: Organism(0, 0, liveLength, powerToReproduce, position, sign) {}
+Plant::Plant(const char sign, const int id, const Position position, const int liveLength, const int powerToReproduce)
+	: Organism(sign, id, position, 0, 0, liveLength, powerToReproduce) {}
 
 void Plant::move(int dx, int dy)
 {
@@ -12,5 +12,6 @@ void Plant::move(int dx, int dy)
 
 void Plant::behave(World& world)
 {
-	// Roślina nie ma zachowania.
+	Organism::behave(world);
+	// Roślina nie ma specyficznego zachowania.
 }

@@ -1,13 +1,18 @@
 #include <iostream>
 #include "Position.h"
 #include "World.h"
+#include "ActionImpl/MoveRandomly.h"
 #include "AnimalImpl/Sheep.h"
 
 int main()
 {
 	World world;
 
-	auto sheep = std::make_unique<Sheep>(Position(3, 3));
+	// Akcje
+	world.addAction(std::make_unique<MoveRandomly>());
+
+	// Organizmy
+	auto sheep = std::make_unique<Sheep>(1, Position(3, 3));
 	world.addOrganism(std::move(sheep));
 
 	// Tura 0

@@ -3,5 +3,5 @@
 
 class Grass final : public Plant {
 public:
-    explicit Grass(Position position);
+    explicit Grass(int id, Position position);
 };

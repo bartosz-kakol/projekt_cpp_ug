@@ -9,10 +9,10 @@ void Animal::move(const int dx, const int dy)
 
 void Animal::behave(World& world)
 {
-    // Domyślna rutyna behave() będzie zawsze uruchomiona pierwsza, przed zachowaniem konkretnego zwierzęcia.
-    Organism::behave(world);
+    behavior->behave(*this, world);
 
-    return behavior->act(*this, world);
+    // Domyślna rutyna behave() będzie zawsze uruchomiona po tym jak konkretne zwierzę wykona swoją własną.
+    Organism::behave(world);
 }
 
 Position Animal::getLastPosition() const

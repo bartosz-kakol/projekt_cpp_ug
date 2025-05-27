@@ -1,4 +1,4 @@
 #include "Grass.h"
 
-Grass::Grass(const Position position)
-    : Plant(position, 6, 3, 'T') {}
+Grass::Grass(const int id, const Position position)
+    : Plant('T', id, position, 6, 3) {}

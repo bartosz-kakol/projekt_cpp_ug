@@ -2,6 +2,7 @@
 #include "Organism.h"
 #include <fstream>
 #include <random>
+#include <typeindex>
 
 std::vector<Organism*> World::getOrganismsFromPosition(const int x, const int y) const
 {
@@ -94,43 +95,63 @@ void World::addOrganism(std::unique_ptr<Organism> organism)
 	this->organisms.push_back(std::move(organism));
 }
 
-void World::makeTurn(const unsigned randomSeed)
+void World::removeOrganism(const int id)
 {
-	std::cout << "TURA ------------------------" << std::endl;
+	organisms.erase(
+		std::remove_if(
+			organisms.begin(), organisms.end(),
+			[id](const std::unique_ptr<Organism>& org)
+			{
+				return org && org->getId() == id;
+			}
+		), organisms.end()
+	);
+}
+
+void World::addAction(std::unique_ptr<Action> action)
+{
+	const auto key = std::type_index(typeid(*action));
+	actions[key] = std::move(action);
+}
+
+void World::removeAction(const std::type_info& i)
+{
+	const auto key = std::type_index(i);
+	actions.erase(key);
+}
+
+void World::invokeAction(const std::type_info& i, Organism& organism)
+{
+	const auto key = std::type_index(i);
+	const auto it = actions.find(key);
+
+	if (it != actions.end()) {
+		it->second->act(organism, *this);
+	} else {
+		throw std::runtime_error("Nie istnieje akcja o nazwie \"" + static_cast<std::string>(key.name()) + "\".");
+	}
+}
+
+void World::makeTurn()
+{
+	std::cout << "TURA ------------------------" << std::endl << std::endl;
 
 	for (const auto& org : organisms) {
-		std::cout << "\tOrganizm " << org->getSign() << ":" << std::endl;
+		std::cout << "\tOrganizm " << org->getSign() << org->getId() << ":" << std::endl;
 
 		org->behave(*this);
 
 		std::cout << std::endl;
-
-		// // Inicjalizacja generatora liczb losowych
-		// std::mt19937 rng(randomSeed);
-		// // Sprawdzenie wolnych pozycji dookoła organizmu
-		// std::vector<Position> newPositions = getVectorOfFreePositionsAround(org->getPosition());
-		// const int numberOfNewPositions = static_cast<int>(newPositions.size());
-		//
-		// if (numberOfNewPositions > 0) {
-		// 	// Wygenerowanie liczby losowej do zdobycia losowej wolnej pozycji
-		// 	std::uniform_int_distribution<> dist(0, numberOfNewPositions - 1);
-		// 	const int randomIndex = dist(rng);
-		//
-		// 	org->setPosition(newPositions[randomIndex]);
-		// }
 	}
 
 	turn++;
 	std::cout << "------------------------ TURA" << std::endl;
 }
 
-void World::makeTurn()
-{
-	makeTurn(static_cast<unsigned>(std::time(nullptr)));
-}
-
 void World::writeWorld(const std::string& fileName)
 {
+	// TODO
+
 	// fstream my_file;
 	// my_file.open(fileName, ios::out | ios::binary);
 	// if (my_file.is_open()) {
@@ -158,6 +179,8 @@ void World::writeWorld(const std::string& fileName)
 
 void World::readWorld(std::string fileName)
 {
+	// TODO
+
 	// fstream my_file;
 	// my_file.open(fileName, ios::in | ios::binary);
 	// if (my_file.is_open()) {

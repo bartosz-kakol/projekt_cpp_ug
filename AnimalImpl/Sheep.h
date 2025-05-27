@@ -4,10 +4,10 @@
 
 class SheepBehavior final : public Behavior {
 public:
-    void act(Organism& self, World& world) override;
+    void behave(Organism& self, World& world) override;
 };
 
 class Sheep final : public Animal {
 public:
-    explicit Sheep(Position position);
+    Sheep(int id, Position position);
 };
