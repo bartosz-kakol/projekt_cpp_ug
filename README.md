@@ -13,9 +13,9 @@ Lista nie uwzględnia nowych funkcjonalności.
   - **Cast'y w stylu C** zostały zmienione na `static_cast` lub inny nowoczesny zamiennik.
   - W wielu miejscach używane jest `std::unique_ptr` aby zapewnić **większe bezpieczeństwo pamięciowe**.
   - Klasy `Organism`, `Animal` i `Plant` są teraz **częściowo lub całkowicie abstrakcyjne**.
+  - Użycie biblioteki `random` do **generowania liczb losowych**, zamiast przestarzałego `srand`/`rand`.
 - `World`
   - Zmiana `push_back` na `emplace_back` w celu **optymalizacji dodawania obiektów do wektora**.
-  - `makeTurn` używa biblioteki `random` do **generowania liczb losowych**, zamiast przestarzałego `srand`/`rand`.
 - `Organism`
   - `species` zostało **usunięte** na rzecz `sign`.
   - Każdy organizm **posiada swoje numeryczne ID** w polu `id` dla łatwiejszej identyfikacji.

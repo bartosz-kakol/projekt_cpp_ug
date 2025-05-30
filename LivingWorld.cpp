@@ -1,34 +1,36 @@
 #include <iostream>
-#include "Position.h"
-#include "World.h"
-#include "ActionImpl/MoveRandomly.h"
-#include "AnimalImpl/Sheep.h"
+
+import World;
+import World.Models.Position;
+import World.Impl.Identifier.SequentialIdentifier;
+import World.Impl.Animal.Sheep;
+import World.Impl.Plant.Grass;
+import World.Impl.Behavior.SheepBehavior;
+import World.Impl.Behavior.DefaultBehavior;
 
 int main()
 {
-	World world;
-
-	// Akcje
-	world.addAction(std::make_unique<MoveRandomly>());
+	auto world = World(
+		std::make_unique<SequentialIdentifier>(),
+		15, 15
+	);
 
 	// Organizmy
-	auto sheep = std::make_unique<Sheep>(1, Position(3, 3));
-	world.addOrganism(std::move(sheep));
+	world.createOrganism<Sheep, SheepBehavior>(Position(3, 3));
+	world.createOrganism<Grass, DefaultBehavior>(Position(0, 1));
+	world.createOrganism<Grass, DefaultBehavior>(Position(1, 0));
+	world.createOrganism<Grass, DefaultBehavior>(Position(4, 4));
+	world.createOrganism<Grass, DefaultBehavior>(Position(3, 2));
 
-	// Tura 0
-	std::cout << world.toString() << std::endl;
+	while (true)
+	{
+		std::cout << world.toString() << std::endl;
 
-	// Tura 1
-	world.makeTurn();
-	std::cout << world.toString() << std::endl;
+		std::cout << std::endl;
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-	// Tura 2
-	world.makeTurn();
-	std::cout << world.toString() << std::endl;
-
-	// Tura 3
-	world.makeTurn();
-	std::cout << world.toString() << std::endl;
+		world.makeTurn();
+	}
 
 	// world.writeWorld("world.bin");
 	// world.readWorld("world.bin");
