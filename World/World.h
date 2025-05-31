@@ -14,7 +14,7 @@ class World final : public IWorld {
     int height;
     int turn = 0;
     std::vector<OrganismRecord> organisms;
-    char separator = '.';
+    std::string separator = "..";
 
     bool isPositionOnWorld(int x, int y) const;
     bool isPositionFree(Position position) const;
@@ -35,6 +35,7 @@ public:
     void removeOrganism(int id) override;
 
     std::vector<Position> getVectorOfFreePositionsAround(Position position) const override;
+    std::vector<Position> getVectorOfPositionsAround(Position position) const override;
     std::vector<IOrganism*> getOrganismsFromPosition(int x, int y) const override;
 
     void makeTurn();

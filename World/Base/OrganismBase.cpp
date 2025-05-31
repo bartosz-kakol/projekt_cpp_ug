@@ -69,15 +69,18 @@ std::vector<AncestorHistoryItem>& OrganismBase::getAncestorsHistory() {
     return this->ancestorsHistory;
 }
 
-void OrganismBase::addAncestorHistoryItem(int births, int deaths) {
+void OrganismBase::addAncestorHistoryItem(const int births, const int deaths) {
     const AncestorHistoryItem item{births, deaths};
     this->ancestorsHistory.push_back(item);
 }
 
 std::string OrganismBase::toString() const {
-    return "{ species: " + std::string(1, this->getSign()) +
-        ", power: " + std::to_string(getPower()) +
-        ", position: " + getPosition().toString() + "}";
+    const auto num = this->getId() < 10 ?
+        std::to_string(this->getId())
+        :
+        "X";
+
+    return std::string(1, this->getSign()) + std::to_string(this->getId());
 }
 
 OrganismBase& OrganismBase::operator=(const OrganismBase& other) {

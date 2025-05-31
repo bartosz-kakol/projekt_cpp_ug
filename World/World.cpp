@@ -83,6 +83,22 @@ std::vector<Position> World::getVectorOfFreePositionsAround(const Position posit
     return result;
 }
 
+std::vector<Position> World::getVectorOfPositionsAround(const Position position) const {
+    const int pos_x = position.getX();
+    const int pos_y = position.getY();
+
+    std::vector<Position> result;
+    for (int x = -1; x < 2; ++x) {
+        for (int y = -1; y < 2; ++y) {
+            if ((x != 0 || y != 0) && isPositionOnWorld(pos_x + x, pos_y + y)) {
+                result.emplace_back(pos_x + x, pos_y + y);
+            }
+        }
+    }
+
+    return result;
+}
+
 std::vector<IOrganism*> World::getOrganismsFromPosition(int x, int y) const {
     std::vector<IOrganism*> result;
     for (const auto& [org, _] : organisms) {
@@ -105,7 +121,11 @@ void World::makeTurn() {
     std::cout << "TURA ------------------------" << std::endl;
 
     for (const auto& [org, behavior] : organisms) {
-        std::cout << "\tOrganizm " << org->getSign() << org->getId() << ":" << std::endl;
+        if (org == nullptr)
+        {
+            // Może się wydarzyć, jeśli jakiś poprzedni organizm usunął ten, który jest teraz przetwarzany!
+            continue;
+        }
 
         const ActionContext ctx{
             .world = *this,
@@ -114,8 +134,6 @@ void World::makeTurn() {
         behavior->behave(ctx);
         org->setPower(org->getPower() + 1);
         org->setLiveLength(org->getLiveLength() - 1);
-
-        std::cout << std::endl;
     }
 
     // Usuwanie organizmów, które umarły ze starości
@@ -123,9 +141,10 @@ void World::makeTurn() {
         organisms.begin(), organisms.end(),
         [this](const OrganismRecord& record) {
             if (const auto& org = record.organism; org->getLiveLength() == 0) {
-                std::cout << org->getSign() << org->getId() << " umarło ze starości." << std::endl;
+                std::cout << org->toString() << " umarło ze starości." << std::endl;
                 return true;
             }
+
             return false;
         }
     );
@@ -145,15 +164,28 @@ void World::readWorld(std::string fileName) {
 
 std::string World::toString() const {
     std::string result = "\nTura " + std::to_string(getTurn()) + "\n";
+
     for (int wY = 0; wY < getHeight(); ++wY) {
         for (int wX = 0; wX < getWidth(); ++wX) {
             if (const auto organisms = getOrganismsFromPosition(wX, wY); !organisms.empty())
-                result += organisms[0]->getSign();
+            {
+                const auto num = organisms[0]->getId() < 10 ?
+                    std::to_string(organisms[0]->getId())
+                    :
+                    "X";
+
+                result += std::string(1, organisms[0]->getSign()) + num;
+            }
             else
+            {
                 result += separator;
+            }
+
             result += ' ';
         }
+
         result += "\n";
     }
+
     return result;
 }

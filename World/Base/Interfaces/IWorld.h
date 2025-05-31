@@ -12,6 +12,8 @@ public:
 
     virtual std::vector<Position> getVectorOfFreePositionsAround(Position position) const = 0;
 
+    virtual std::vector<Position> getVectorOfPositionsAround(Position position) const = 0;
+
     virtual std::vector<IOrganism*> getOrganismsFromPosition(int x, int y) const = 0;
 
     virtual void addOrganism(std::unique_ptr<IOrganism> organism, std::unique_ptr<IBehavior> behavior) = 0;

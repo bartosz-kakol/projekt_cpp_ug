@@ -22,20 +22,32 @@ int main()
 		}
 	);
 
-	for (int i = 0; i < 20; ++i)
+	for (int x = 6; x < 9; x++)
 	{
-		const std::uint32_t seed = std::chrono::system_clock::now().time_since_epoch().count();
-		std::mt19937 rng(seed);
-		std::uniform_int_distribution distX(0, world.getWidth()- 1);
-		std::uniform_int_distribution distY(0, world.getHeight() - 1);
-
-		creator.createOrganism<Grass, DefaultBehavior>(
-			[&rng, &distX, &distY](Grass* organism, [[maybe_unused]] DefaultBehavior* behavior)
-			{
-				organism->setPosition(Position(distX(rng), distY(rng)));
-			}
-		);
+		for (int y = 6; y < 9; y++)
+		{
+			creator.createOrganism<Grass, DefaultBehavior>(
+				[x, y](Grass* organism, [[maybe_unused]] DefaultBehavior* behavior) {
+					organism->setPosition(Position(x, y));
+				}
+			);
+		}
 	}
+
+	// for (int i = 0; i < 60; ++i)
+	// {
+	// 	const std::uint32_t seed = std::chrono::system_clock::now().time_since_epoch().count();
+	// 	std::mt19937 rng(seed);
+	// 	std::uniform_int_distribution distX(0, world.getWidth()- 1);
+	// 	std::uniform_int_distribution distY(0, world.getHeight() - 1);
+	//
+	// 	creator.createOrganism<Grass, DefaultBehavior>(
+	// 		[&rng, &distX, &distY](Grass* organism, [[maybe_unused]] DefaultBehavior* behavior)
+	// 		{
+	// 			organism->setPosition(Position(distX(rng), distY(rng)));
+	// 		}
+	// 	);
+	// }
 
 	while (true)
 	{

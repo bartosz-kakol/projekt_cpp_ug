@@ -47,7 +47,7 @@ public:
     std::vector<AncestorHistoryItem>& getAncestorsHistory();
     void addAncestorHistoryItem(int births, int deaths);
 
-    std::string toString() const;
+    std::string toString() const override;
 
     OrganismBase& operator=(const OrganismBase& other);
     OrganismBase& operator=(OrganismBase&& other) noexcept;

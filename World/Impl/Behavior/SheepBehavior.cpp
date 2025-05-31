@@ -1,13 +1,20 @@
 #include "SheepBehavior.h"
 
-#include <iostream>
-
+#include "World/Impl/Action/Eat.h"
 #include "World/Impl/Action/MoveRandomly.h"
 #include "World/Models/ActionContext.h"
 
 void SheepBehavior::behave(const ActionContext ctx) {
-    std::cout << "Losowy ruch" << std::endl;
     MoveRandomly().act(ctx);
-
-    std::cout << "Jedzenie trawy" << std::endl;
+    Eat(
+        [](std::vector<IOrganism*>& organisms) {
+            const auto iter = std::remove_if(
+                organisms.begin(), organisms.end(),
+                [](const IOrganism* org) {
+                    return org->getSign() != 'T';
+                }
+            );
+            organisms.erase(iter, organisms.end());
+        }
+    ).act(ctx);
 }
