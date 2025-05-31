@@ -75,11 +75,6 @@ void OrganismBase::addAncestorHistoryItem(const int births, const int deaths) {
 }
 
 std::string OrganismBase::toString() const {
-    const auto num = this->getId() < 10 ?
-        std::to_string(this->getId())
-        :
-        "X";
-
     return std::string(1, this->getSign()) + std::to_string(this->getId());
 }
 
