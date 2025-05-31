@@ -2,7 +2,7 @@
 
 #include <type_traits>
 
-#include "World/Base/Interfaces/IIdentifier.h"
+#include "Base/Interfaces/IIdentifier.h"
 
 template <typename IdentifierT>
 Creator<IdentifierT>::Creator(IWorld& world)
