@@ -14,7 +14,6 @@ Lista nie uwzględnia nowych funkcjonalności.
   - W wielu miejscach używane jest `std::unique_ptr` aby zapewnić **większe bezpieczeństwo pamięciowe**.
   - Klasy `Organism`, `Animal` i `Plant` są teraz **częściowo lub całkowicie abstrakcyjne**.
   - Użycie biblioteki `random` do **generowania liczb losowych**, zamiast przestarzałego `srand`/`rand`.
-  - Zmieniono klasyczne funkcje filtrujące `std::vector` na **nowe funkcje z przestrzeni nazw `std::ranges`**.
 - `World`
   - Zmiana `push_back` na `emplace_back` w celu **optymalizacji dodawania obiektów do wektora**.
 - `Organism`

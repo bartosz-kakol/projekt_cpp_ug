@@ -1,6 +1,6 @@
-export module World.Base.Interfaces.IIdentifier;
+#pragma once
 
-export class IIdentifier {
+class IIdentifier {
 public:
     virtual ~IIdentifier() = default;
 

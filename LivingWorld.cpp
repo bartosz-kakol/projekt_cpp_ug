@@ -1,26 +1,41 @@
 #include <iostream>
+#include <random>
+#include <chrono>
 
-import World;
-import World.Models.Position;
-import World.Impl.Identifier.SequentialIdentifier;
-import World.Impl.Animal.Sheep;
-import World.Impl.Plant.Grass;
-import World.Impl.Behavior.SheepBehavior;
-import World.Impl.Behavior.DefaultBehavior;
+#include "World/Creator.h"
+#include "World/World.h"
+#include "World/Impl/Animal/Sheep.h"
+#include "World/Impl/Plant/Grass.h"
+#include "World/Impl/Behavior/SheepBehavior.h"
+#include "World/Impl/Behavior/DefaultBehavior.h"
+#include "World/Impl/Identifier/SequentialIdentifier.h"
 
 int main()
 {
-	auto world = World(
-		std::make_unique<SequentialIdentifier>(),
-		15, 15
+	auto world = World(15, 15);
+	auto creator = Creator<SequentialIdentifier>(world);
+
+	// Ustawienie świata
+	creator.createOrganism<Sheep, SheepBehavior>(
+		[](Sheep* organism, [[maybe_unused]] SheepBehavior* behavior) {
+			organism->setPosition(Position(7, 8));
+		}
 	);
 
-	// Organizmy
-	world.createOrganism<Sheep, SheepBehavior>(Position(3, 3));
-	world.createOrganism<Grass, DefaultBehavior>(Position(0, 1));
-	world.createOrganism<Grass, DefaultBehavior>(Position(1, 0));
-	world.createOrganism<Grass, DefaultBehavior>(Position(4, 4));
-	world.createOrganism<Grass, DefaultBehavior>(Position(3, 2));
+	for (int i = 0; i < 20; ++i)
+	{
+		const std::uint32_t seed = std::chrono::system_clock::now().time_since_epoch().count();
+		std::mt19937 rng(seed);
+		std::uniform_int_distribution distX(0, world.getWidth()- 1);
+		std::uniform_int_distribution distY(0, world.getHeight() - 1);
+
+		creator.createOrganism<Grass, DefaultBehavior>(
+			[&rng, &distX, &distY](Grass* organism, [[maybe_unused]] DefaultBehavior* behavior)
+			{
+				organism->setPosition(Position(distX(rng), distY(rng)));
+			}
+		);
+	}
 
 	while (true)
 	{

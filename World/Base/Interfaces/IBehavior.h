@@ -1,9 +1,9 @@
-export module World.Base.Interfaces.IBehavior;
+#pragma once
 
-import World.Base.Interfaces.IWorld;
-import World.Base.Interfaces.IOrganism;
+class IOrganism;
+class IWorld;
 
-export class IBehavior {
+class IBehavior {
 public:
     virtual ~IBehavior() = default;
 
