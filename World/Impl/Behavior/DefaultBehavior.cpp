@@ -2,7 +2,9 @@
 
 #include <iostream>
 
-void DefaultBehavior::behave(IOrganism& self, IWorld& world)
+#include "World/Models/ActionContext.h"
+
+void DefaultBehavior::behave(ActionContext ctx)
 {
     std::cout << "Domyślne zachowanie" << std::endl;
 }

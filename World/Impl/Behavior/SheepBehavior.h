@@ -4,5 +4,5 @@
 
 class SheepBehavior final : public IBehavior
 {
-    void behave(IOrganism& self, IWorld& world) override;
+    void behave(ActionContext ctx) override;
 };

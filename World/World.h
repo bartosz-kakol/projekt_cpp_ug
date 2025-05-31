@@ -4,11 +4,10 @@
 #include <vector>
 #include <string>
 
-#include "Base/Interfaces/IWorld.h"
-#include "Base/Interfaces/IIdentifier.h"
-#include "Base/Interfaces/IOrganism.h"
-#include "Base/Interfaces/IBehavior.h"
-#include "Models/OrganismRecord.h"
+#include "World/Base/Interfaces/IWorld.h"
+#include "World/Base/Interfaces/IOrganism.h"
+#include "World/Base/Interfaces/IBehavior.h"
+#include "World/Models/OrganismRecord.h"
 
 class World final : public IWorld {
     int width;

@@ -1,8 +1,10 @@
 #include "World.h"
-#include "Models/Position.h"
-#include "Models/OrganismRecord.h"
 
 #include <iostream>
+
+#include "World/Models/Position.h"
+#include "World/Models/OrganismRecord.h"
+#include "World/Models/ActionContext.h"
 
 World::World(const int width, const int height)
     : width(width), height(height) { }
@@ -105,7 +107,11 @@ void World::makeTurn() {
     for (const auto& [org, behavior] : organisms) {
         std::cout << "\tOrganizm " << org->getSign() << org->getId() << ":" << std::endl;
 
-        behavior->behave(*org, *this);
+        const ActionContext ctx{
+            .world = *this,
+            .organism = org.get()
+        };
+        behavior->behave(ctx);
         org->setPower(org->getPower() + 1);
         org->setLiveLength(org->getLiveLength() - 1);
 

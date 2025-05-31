@@ -4,6 +4,6 @@
 
 class MoveRandomly final : public IAction {
 public:
-    void act(IOrganism& self, IWorld& world) override;
+    void act(ActionContext ctx) override;
 };
 
