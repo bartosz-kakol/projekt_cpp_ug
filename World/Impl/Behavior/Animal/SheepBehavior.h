@@ -4,5 +4,6 @@
 
 class SheepBehavior final : public IBehavior
 {
+public:
     void behave(ActionContext ctx) override;
 };

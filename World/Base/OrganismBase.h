@@ -13,7 +13,7 @@ class OrganismBase : public IOrganism {
     int liveLength;
     int powerToReproduce;
     Position position;
-    char sign;
+    std::string species;
     std::vector<AncestorHistoryItem> ancestorsHistory;
 
 public:
@@ -38,11 +38,13 @@ public:
     Position getPosition() const override;
     void setPosition(Position position) override;
 
-    char getSign() const override;
-    void setSign(char spec) override;
+    std::string getSpecies() const override;
+    void setSpecies(const std::string& species) override;
 
     int getId() const override;
     void setId(int id) override;
+
+    bool canReproduce() const override;
 
     std::vector<AncestorHistoryItem>& getAncestorsHistory();
     void addAncestorHistoryItem(int births, int deaths);

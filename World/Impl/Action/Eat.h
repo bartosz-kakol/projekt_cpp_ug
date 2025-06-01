@@ -7,7 +7,7 @@ class Eat final : public ActionBase {
     const std::function<void(std::vector<IOrganism*>&)>& filter;
 
 public:
-    explicit Eat(const std::function<void(std::vector<IOrganism*>&)>& filter);
+    explicit Eat(const std::function<void(std::vector<IOrganism*>&)>& filter = [](auto&) {});
 
     void act(ActionContext ctx) override;
 };

@@ -5,6 +5,7 @@
 #include "World/Models/Position.h"
 #include "World/Base/Interfaces/IOrganism.h"
 #include "World/Base/Interfaces/IBehavior.h"
+#include "World/Base/Interfaces/IIdentifier.h"
 
 class IWorld {
 public:
@@ -25,6 +26,8 @@ public:
     virtual int getHeight() const = 0;
 
     virtual int getTurn() const = 0;
+
+    virtual IIdentifier* getIdentifier() const = 0;
 
     virtual void makeTurn() = 0;
 };

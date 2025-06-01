@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 
+#include "World/Base/Interfaces/IIdentifier.h"
 #include "World/Base/Interfaces/IWorld.h"
 #include "World/Base/Interfaces/IOrganism.h"
 #include "World/Base/Interfaces/IBehavior.h"
@@ -15,13 +16,14 @@ class World final : public IWorld {
     int turn = 0;
     std::vector<OrganismRecord> organisms;
     std::string separator = "..";
+    std::unique_ptr<IIdentifier> identifier;
 
     bool isPositionOnWorld(int x, int y) const;
     bool isPositionFree(Position position) const;
 
 public:
-    World(int width, int height);
-    World();
+    World(std::unique_ptr<IIdentifier> identifier, int width, int height);
+    explicit World(std::unique_ptr<IIdentifier> identifier);
 
     int getWidth() const override;
     void setWidth(int width);
@@ -30,6 +32,8 @@ public:
     void setHeight(int height);
 
     int getTurn() const override;
+
+    IIdentifier* getIdentifier() const override;
 
     void addOrganism(std::unique_ptr<IOrganism> organism, std::unique_ptr<IBehavior> behavior) override;
     void removeOrganism(int id) override;

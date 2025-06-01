@@ -7,11 +7,17 @@
 #include "World/Models/OrganismRecord.h"
 #include "World/Models/ActionContext.h"
 
-World::World(const int width, const int height)
-    : width(width), height(height) { }
+World::World(std::unique_ptr<IIdentifier> identifier, const int width, const int height)
+    : width(width), height(height), identifier(std::move(identifier))
+{
 
-World::World()
-    : World(6, 6) { }
+}
+
+World::World(std::unique_ptr<IIdentifier> identifier)
+    : World(std::move(identifier), 6, 6)
+{
+
+}
 
 int World::getWidth() const {
     return this->width;
@@ -31,6 +37,11 @@ void World::setHeight(const int height) {
 
 int World::getTurn() const {
     return this->turn;
+}
+
+IIdentifier* World::getIdentifier() const
+{
+    return this->identifier.get();
 }
 
 bool World::isPositionOnWorld(const int x, const int y) const {
@@ -120,6 +131,8 @@ void World::makeTurn() {
     );
 
     std::cout << "TURA ------------------------" << std::endl;
+    ActionBase::logger->log("");
+    ActionBase::logger->log("Tura " + std::to_string(turn));
 
     for (const auto& [org, behavior] : organisms) {
         if (org == nullptr)
@@ -134,11 +147,10 @@ void World::makeTurn() {
         };
         behavior->behave(ctx);
         org->setPower(org->getPower() + 1);
-        org->setLiveLength(org->getLiveLength() - 1);
 
-        if (org->getLiveLength() == 0)
+        if (const auto liveLength = org->getLiveLength(); liveLength > -1)
         {
-
+            org->setLiveLength(liveLength - 1);
         }
     }
 
@@ -168,32 +180,4 @@ void World::writeWorld(const std::string& fileName) {
 
 void World::readWorld(std::string fileName) {
     // TODO: Implementacja odczytu świata z pliku binarnego
-}
-
-std::string World::toString() const {
-    std::string result = "\nTura " + std::to_string(getTurn()) + "\n";
-
-    for (int wY = 0; wY < getHeight(); ++wY) {
-        for (int wX = 0; wX < getWidth(); ++wX) {
-            if (const auto organisms = getOrganismsFromPosition(wX, wY); !organisms.empty())
-            {
-                const auto num = organisms[0]->getId() < 10 ?
-                    std::to_string(organisms[0]->getId())
-                    :
-                    "X";
-
-                result += std::string(1, organisms[0]->getSign()) + num;
-            }
-            else
-            {
-                result += separator;
-            }
-
-            result += ' ';
-        }
-
-        result += "\n";
-    }
-
-    return result;
 }

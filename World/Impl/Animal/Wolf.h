@@ -2,10 +2,9 @@
 
 #include "World/Base/AnimalBase.h"
 
-class Sheep final : public AnimalBase {
+class Wolf final : public AnimalBase {
 public:
-    explicit Sheep(int id);
+    explicit Wolf(int id);
 
     void init() override;
 };
-

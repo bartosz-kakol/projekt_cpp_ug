@@ -1,7 +1,7 @@
 #include "Creator.h"
 
-Creator::Creator(IWorld& world, IIdentifier& identifier)
-    : world(world), identifier(identifier)
+Creator::Creator(IWorld& world)
+    : world(world)
 {
 
 }

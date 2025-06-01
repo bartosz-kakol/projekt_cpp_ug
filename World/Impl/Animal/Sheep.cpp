@@ -8,7 +8,7 @@ Sheep::Sheep(const int id)
 
 void Sheep::init()
 {
-    setSign('S');
+    setSpecies("Sheep");
     setPower(3);
     setInitiative(3);
     setLiveLength(10);

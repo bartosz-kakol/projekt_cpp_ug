@@ -6,7 +6,7 @@ OrganismBase::OrganismBase(const int id)
       initiative(0),
       liveLength(-1),
       powerToReproduce(0),
-      sign('_')
+      species("Unknown")
 {}
 
 int OrganismBase::getPower() const {
@@ -49,12 +49,14 @@ void OrganismBase::setPosition(const Position position) {
     this->position = position;
 }
 
-char OrganismBase::getSign() const {
-    return this->sign;
+std::string OrganismBase::getSpecies() const
+{
+    return this->species;
 }
 
-void OrganismBase::setSign(const char spec) {
-    this->sign = spec;
+void OrganismBase::setSpecies(const std::string& species)
+{
+    this->species = species;
 }
 
 int OrganismBase::getId() const {
@@ -63,6 +65,11 @@ int OrganismBase::getId() const {
 
 void OrganismBase::setId(const int id) {
     this->id = id;
+}
+
+bool OrganismBase::canReproduce() const
+{
+    return power >= powerToReproduce;
 }
 
 std::vector<AncestorHistoryItem>& OrganismBase::getAncestorsHistory() {
@@ -74,14 +81,18 @@ void OrganismBase::addAncestorHistoryItem(const int births, const int deaths) {
 }
 
 std::string OrganismBase::toString() const {
-    return std::string(1, this->getSign()) + std::to_string(this->getId());
+    return this->getSpecies() + std::to_string(this->getId());
 }
 
 OrganismBase& OrganismBase::operator=(const OrganismBase& other) {
     if (this != &other) {
+        id = other.id;
         power = other.power;
+        initiative = other.initiative;
+        liveLength = other.liveLength;
+        powerToReproduce = other.powerToReproduce;
         position = other.position;
-        sign = other.sign;
+        species = other.species;
         ancestorsHistory = other.ancestorsHistory;
     }
     return *this;
@@ -89,9 +100,13 @@ OrganismBase& OrganismBase::operator=(const OrganismBase& other) {
 
 OrganismBase& OrganismBase::operator=(OrganismBase&& other) noexcept {
     if (this != &other) {
+        id = other.id;
         power = other.power;
+        initiative = other.initiative;
+        liveLength = other.liveLength;
+        powerToReproduce = other.powerToReproduce;
         position = other.position;
-        sign = other.sign;
+        species = other.species;
         ancestorsHistory = std::move(other.ancestorsHistory);
     }
     return *this;

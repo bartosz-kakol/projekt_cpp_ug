@@ -17,6 +17,7 @@ class WorldViewerWindow final : public QMainWindow {
     IWorld& world;
     ISpawner& spawner;
     QStandardItemModel* worldViewModel;
+    std::unordered_map<std::string, QColor> organismColors{};
 
     void init() const;
 
@@ -27,6 +28,8 @@ public:
     ~WorldViewerWindow() override;
 
     void logMessage(const std::string& message) const;
+
+    void mapOrganismColor(const std::string& species, const QColor& color);
 private slots:
     void onSpawnBtnClicked() const;
     void onNextTurnBtnClicked() const;

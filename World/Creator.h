@@ -2,14 +2,12 @@
 
 #include <functional>
 
-#include "World/Base/Interfaces/IIdentifier.h"
 #include "World/Base/Interfaces/IWorld.h"
 
 class Creator {
     IWorld& world;
-    IIdentifier& identifier;
 public:
-    Creator(IWorld& world, IIdentifier& identifier);
+    explicit Creator(IWorld& world);
 
     template<typename OrganismT, typename BehaviorT>
     void createOrganism();

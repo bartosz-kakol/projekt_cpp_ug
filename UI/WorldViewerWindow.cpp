@@ -70,6 +70,11 @@ void WorldViewerWindow::logMessage(const std::string& message) const
     ui->logBox->scrollToBottom();
 }
 
+void WorldViewerWindow::mapOrganismColor(const std::string& species, const QColor& color)
+{
+    organismColors[species] = color;
+}
+
 void WorldViewerWindow::updateWorldView() const
 {
     const auto w = world.getWidth();
@@ -92,14 +97,23 @@ void WorldViewerWindow::updateWorldView() const
                 worldViewModel->setItem(
                     y, x,
                     new QStandardItem(
-                        QString::fromStdString(org->toString() + "\n") +
+                        QString::number(org->getPower()) + "/" + QString::number(org->getLiveLength()) + "\n" +
                         QString::number(organisms.size())
                     )
                 );
 
                 const auto item = worldViewModel->item(y, x);
                 item->setTextAlignment(Qt::AlignCenter);
-                item->setForeground(QColor(Qt::darkGray));
+                item->setFont(QFont("Arial", 12, QFont::Bold));
+
+                // Kolor tekstu w komórce
+                const auto& species = org->getSpecies();
+                item->setForeground(
+                    organismColors.find(species) != organismColors.end() ?
+                         organismColors.at(org->getSpecies())
+                         :
+                         Qt::black
+                );
             }
             else
             {

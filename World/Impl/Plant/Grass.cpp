@@ -7,5 +7,7 @@ Grass::Grass(const int id)
 }
 
 void Grass::init() {
-    setSign('T');
+    setSpecies("Grass");
+    setLiveLength(6);
+    setPowerToReproduce(3);
 }

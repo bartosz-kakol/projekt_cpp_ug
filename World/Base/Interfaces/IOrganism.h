@@ -26,13 +26,15 @@ public:
 
     virtual void setPowerToReproduce(int powerToReproduce) = 0;
 
-    virtual char getSign() const = 0;
+    virtual std::string getSpecies() const = 0;
 
-    virtual void setSign(char spec) = 0;
+    virtual void setSpecies(const std::string& species) = 0;
 
     virtual int getId() const = 0;
 
     virtual void setId(int id) = 0;
+
+    virtual bool canReproduce() const = 0;
 
     virtual std::string toString() const = 0;
 };

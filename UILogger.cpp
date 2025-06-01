@@ -11,6 +11,6 @@ UILogger::UILogger(const WorldViewerWindow& window)
 
 void UILogger::log(const std::string& message)
 {
-    std::cout << message << std::endl;
+    // std::cout << message << std::endl;
     window.logMessage(message);
 }

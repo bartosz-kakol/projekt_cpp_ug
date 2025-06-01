@@ -1,4 +1,5 @@
 #pragma once
+
 #include "OrganismBase.h"
 
 class AnimalBase : public OrganismBase {

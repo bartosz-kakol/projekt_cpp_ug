@@ -2,7 +2,7 @@
 
 #include "World/Base/Interfaces/IBehavior.h"
 
-class DefaultBehavior final : public IBehavior
-{
+class WolfBehavior final : public IBehavior {
+public:
     void behave(ActionContext ctx) override;
 };

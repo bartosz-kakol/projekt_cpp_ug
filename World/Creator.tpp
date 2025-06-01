@@ -14,9 +14,7 @@ void Creator::createOrganism(std::function<void(OrganismT*, BehaviorT*)> init)
     static_assert(std::is_base_of_v<IBehavior, BehaviorT>,
                   "BehaviorT musi dziedziczyć pod IBehavior");
 
-    const auto id = identifier.next();
-
-    auto organism = std::make_unique<OrganismT>(id);
+    auto organism = std::make_unique<OrganismT>(world.getIdentifier()->next());
     organism->init();
     auto behavior = std::make_unique<BehaviorT>();
 
