@@ -146,6 +146,13 @@ void World::makeTurn() {
             .organism = org.get()
         };
         behavior->behave(ctx);
+
+        if (org == nullptr)
+        {
+            // Może się wydarzyć, jeśli organizm skasował sam siebie podczas wykonywania swojego zachowania!
+            continue;
+        }
+
         org->setPower(org->getPower() + 1);
 
         if (const auto liveLength = org->getLiveLength(); liveLength > -1)
