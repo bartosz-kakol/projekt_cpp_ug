@@ -2,14 +2,14 @@
 
 #include <functional>
 
+#include "World/Base/Interfaces/IIdentifier.h"
 #include "World/Base/Interfaces/IWorld.h"
 
-template<typename IdentifierT>
 class Creator {
     IWorld& world;
-    std::unique_ptr<IdentifierT> identifier;
+    IIdentifier& identifier;
 public:
-    explicit Creator(IWorld& world);
+    Creator(IWorld& world, IIdentifier& identifier);
 
     template<typename OrganismT, typename BehaviorT>
     void createOrganism();

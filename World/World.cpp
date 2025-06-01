@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "Base/ActionBase.h"
 #include "World/Models/Position.h"
 #include "World/Models/OrganismRecord.h"
 #include "World/Models/ActionContext.h"
@@ -42,7 +43,7 @@ bool World::isPositionFree(const Position position) const {
 
 void World::addOrganism(std::unique_ptr<IOrganism> organism, std::unique_ptr<IBehavior> behavior)
 {
-    organisms.push_back(OrganismRecord{
+    organisms.emplace_back(OrganismRecord{
         .organism = std::move(organism),
         .behavior = std::move(behavior)
     });
@@ -134,14 +135,21 @@ void World::makeTurn() {
         behavior->behave(ctx);
         org->setPower(org->getPower() + 1);
         org->setLiveLength(org->getLiveLength() - 1);
+
+        if (org->getLiveLength() == 0)
+        {
+
+        }
     }
 
     // Usuwanie organizmów, które umarły ze starości
     const auto iter = std::remove_if(
         organisms.begin(), organisms.end(),
         [this](const OrganismRecord& record) {
-            if (const auto& org = record.organism; org->getLiveLength() == 0) {
-                std::cout << org->toString() << " umarło ze starości." << std::endl;
+            const auto& org = record.organism;
+
+            if (org->getLiveLength() == 0) {
+                ActionBase::logger->log(org->toString() + " umarło ze starości.");
                 return true;
             }
 
@@ -151,7 +159,7 @@ void World::makeTurn() {
     organisms.erase(iter, organisms.end());
 
     turn++;
-    std::cout << "------------------------ TURA" << std::endl;
+    std::cout << "------------------------ TURA" << std::endl << std::endl;
 }
 
 void World::writeWorld(const std::string& fileName) {

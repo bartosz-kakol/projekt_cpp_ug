@@ -19,4 +19,12 @@ public:
     virtual void addOrganism(std::unique_ptr<IOrganism> organism, std::unique_ptr<IBehavior> behavior) = 0;
 
     virtual void removeOrganism(int id) = 0;
+
+    virtual int getWidth() const = 0;
+
+    virtual int getHeight() const = 0;
+
+    virtual int getTurn() const = 0;
+
+    virtual void makeTurn() = 0;
 };

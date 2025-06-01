@@ -23,13 +23,13 @@ public:
     World(int width, int height);
     World();
 
-    int getWidth() const;
+    int getWidth() const override;
     void setWidth(int width);
 
-    int getHeight() const;
+    int getHeight() const override;
     void setHeight(int height);
 
-    int getTurn() const;
+    int getTurn() const override;
 
     void addOrganism(std::unique_ptr<IOrganism> organism, std::unique_ptr<IBehavior> behavior) override;
     void removeOrganism(int id) override;
@@ -38,7 +38,7 @@ public:
     std::vector<Position> getVectorOfPositionsAround(Position position) const override;
     std::vector<IOrganism*> getOrganismsFromPosition(int x, int y) const override;
 
-    void makeTurn();
+    void makeTurn() override;
 
     void writeWorld(const std::string& fileName);
 

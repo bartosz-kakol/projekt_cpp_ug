@@ -70,8 +70,7 @@ std::vector<AncestorHistoryItem>& OrganismBase::getAncestorsHistory() {
 }
 
 void OrganismBase::addAncestorHistoryItem(const int births, const int deaths) {
-    const AncestorHistoryItem item{births, deaths};
-    this->ancestorsHistory.push_back(item);
+    this->ancestorsHistory.emplace_back(AncestorHistoryItem{births, deaths});
 }
 
 std::string OrganismBase::toString() const {
