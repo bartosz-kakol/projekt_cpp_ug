@@ -8,12 +8,11 @@ class AnimalBase : public OrganismBase {
 public:
     using OrganismBase::init;
 
-    explicit AnimalBase(const int id) : OrganismBase(id)
-    {
-
-    }
+    explicit AnimalBase(int id);
 
     void setPosition(Position position) override;
-
     Position getLastPosition() const;
+
+    void serialize(Variant& v) override;
+    void deserialize(Variant& source) override;
 };

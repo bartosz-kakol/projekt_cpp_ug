@@ -77,11 +77,62 @@ std::vector<AncestorHistoryItem>& OrganismBase::getAncestorsHistory() {
 }
 
 void OrganismBase::addAncestorHistoryItem(const int births, const int deaths) {
-    this->ancestorsHistory.emplace_back(AncestorHistoryItem{births, deaths});
+    this->ancestorsHistory.emplace_back(births, deaths);
 }
 
 std::string OrganismBase::toString() const {
     return this->getSpecies() + std::to_string(this->getId());
+}
+
+void OrganismBase::serialize(Variant& v)
+{
+    v.addChild("id", Variant::fromValue(id));
+    v.addChild("power", Variant::fromValue(power));
+    v.addChild("initiative", Variant::fromValue(initiative));
+    v.addChild("liveLength", Variant::fromValue(liveLength));
+    v.addChild("powerToReproduce", Variant::fromValue(powerToReproduce));
+
+    v.addChild("position");
+    position.serialize(v.getChild("position"));
+
+    v.addChild("species", Variant::fromValue(species));
+
+    v.addChild(
+        "ancestorsHistory",
+        Variant::sequential<AncestorHistoryItem>(
+            ancestorsHistory,
+            [](AncestorHistoryItem& item)
+            {
+                Variant r;
+                item.serialize(r);
+                return r;
+            }
+        )
+    );
+}
+
+void OrganismBase::deserialize(Variant& source)
+{
+
+    id = source.getChild("id").getValueAs<int>();
+    power = source.getChild("power").getValueAs<int>();
+    initiative = source.getChild("initiative").getValueAs<int>();
+    liveLength = source.getChild("liveLength").getValueAs<int>();
+    powerToReproduce = source.getChild("powerToReproduce").getValueAs<int>();
+
+    position = Position();
+    position.deserialize(source.getChild("position"));
+
+    species = source.getChild("species").getValueAs<std::string>();
+
+    ancestorsHistory = source.getChild("ancestorsHistory").getSequentialChildren<AncestorHistoryItem>(
+        [](Variant& item)
+        {
+            AncestorHistoryItem r;
+            r.deserialize(item);
+            return r;
+        }
+    );
 }
 
 OrganismBase& OrganismBase::operator=(const OrganismBase& other) {

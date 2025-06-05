@@ -1,13 +1,13 @@
 #pragma once
 
 template <typename OrganismT, typename BehaviorT>
-void Creator::createOrganism()
+OrganismT* Creator::createOrganism()
 {
-    createOrganism<OrganismT, BehaviorT>([](auto*, auto*) {});
+    return createOrganism<OrganismT, BehaviorT>([](auto*, auto*) {});
 }
 
 template <typename OrganismT, typename BehaviorT>
-void Creator::createOrganism(std::function<void(OrganismT*, BehaviorT*)> init)
+OrganismT* Creator::createOrganism(std::function<void(OrganismT*, BehaviorT*)> init)
 {
     static_assert(std::is_base_of_v<IOrganism, OrganismT>,
                   "OrganismT musi dziedziczyć pod IOrganism");
@@ -18,7 +18,10 @@ void Creator::createOrganism(std::function<void(OrganismT*, BehaviorT*)> init)
     organism->init();
     auto behavior = std::make_unique<BehaviorT>();
 
-    init(organism.get(), behavior.get());
+    const auto organismPtr = organism.get();
+    init(organismPtr, behavior.get());
 
     world.addOrganism(std::move(organism), std::move(behavior));
+
+    return organismPtr;
 }

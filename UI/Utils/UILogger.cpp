@@ -1,8 +1,5 @@
 #include "UILogger.h"
 
-#include <iostream>
-#include <__ostream/basic_ostream.h>
-
 UILogger::UILogger(const WorldViewerWindow& window)
     : window(window)
 {
@@ -11,6 +8,8 @@ UILogger::UILogger(const WorldViewerWindow& window)
 
 void UILogger::log(const std::string& message)
 {
-    // std::cout << message << std::endl;
-    window.logMessage(message);
+    if (window.isLoggingEnabled())
+    {
+        window.logMessage(message);
+    }
 }

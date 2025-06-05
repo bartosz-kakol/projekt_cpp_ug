@@ -23,10 +23,15 @@ file(GLOB_RECURSE UI_SOURCES
         "${CMAKE_SOURCE_DIR}/UI/*.ui"
 )
 
+file(GLOB_RECURSE SERIALIZER_SOURCES
+        "${CMAKE_SOURCE_DIR}/Serializer/*.h"
+        "${CMAKE_SOURCE_DIR}/Serializer/*.hpp"
+        "${CMAKE_SOURCE_DIR}/Serializer/*.cpp"
+)
+
 qt_add_executable(projekt_swiat_bartosz_kakol
         LivingWorld.cpp
-        Spawner.cpp
-        UILogger.cpp
+        ${SERIALIZER_SOURCES}
         ${WORLD_SOURCES}
         ${UI_SOURCES}
 )

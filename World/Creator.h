@@ -10,10 +10,10 @@ public:
     explicit Creator(IWorld& world);
 
     template<typename OrganismT, typename BehaviorT>
-    void createOrganism();
+    OrganismT* createOrganism();
 
     template <typename OrganismT, typename BehaviorT>
-    void createOrganism(std::function<void(OrganismT*, BehaviorT*)> init);
+    OrganismT* createOrganism(std::function<void(OrganismT*, BehaviorT*)> init);
 };
 
 #include "Creator.tpp"

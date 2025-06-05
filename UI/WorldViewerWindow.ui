@@ -69,7 +69,7 @@
         <bool>false</bool>
        </property>
        <property name="selectionMode">
-        <enum>QAbstractItemView::SingleSelection</enum>
+        <enum>QAbstractItemView::NoSelection</enum>
        </property>
        <attribute name="horizontalHeaderVisible">
         <bool>false</bool>
@@ -109,6 +109,13 @@
          </property>
          <property name="text">
           <string>Następna tura</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="automaticTurnsCheckBox">
+         <property name="text">
+          <string>Automatyczne tury</string>
          </property>
         </widget>
        </item>
@@ -157,30 +164,14 @@
         <widget class="QListWidget" name="logBox"/>
        </item>
        <item>
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_2">
+        <widget class="QCheckBox" name="enableLogsCheckBox">
          <property name="text">
-          <string>Organizmy na wybranej komórce</string>
+          <string>Włącz wiadomości</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
-       </item>
-       <item>
-        <widget class="QListView" name="organismList"/>
        </item>
        <item>
         <spacer name="verticalSpacer_4">
@@ -240,13 +231,13 @@
            </property>
            <property name="minimumSize">
             <size>
-             <width>100</width>
+             <width>140</width>
              <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>140</width>
              <height>16777215</height>
             </size>
            </property>

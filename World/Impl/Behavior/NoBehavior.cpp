@@ -6,3 +6,8 @@ void NoBehavior::behave(ActionContext ctx)
 {
 
 }
+
+std::string NoBehavior::getName() const
+{
+    return "NoBehavior";
+}

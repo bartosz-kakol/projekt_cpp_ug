@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "ui_WorldViewerWindow.h"
+#include <QFileDialog>
 
 WorldViewerWindow::WorldViewerWindow(IWorld& world, ISpawner& spawner, QWidget *parent)
     :
@@ -10,6 +11,8 @@ WorldViewerWindow::WorldViewerWindow(IWorld& world, ISpawner& spawner, QWidget *
         world(world),
         spawner(spawner),
         worldViewModel(new QStandardItemModel()),
+        automaticTurnTimer(new QTimer(this)),
+        serializer(std::make_unique<JSONSerializer>()),
         ui(new Ui::WorldViewerWindow)
 {
     ui->setupUi(this);
@@ -19,6 +22,16 @@ WorldViewerWindow::WorldViewerWindow(IWorld& world, ISpawner& spawner, QWidget *
 
     connect(ui->spawnBtn, &QPushButton::clicked, this, &WorldViewerWindow::onSpawnBtnClicked);
     connect(ui->nextTurnBtn, &QPushButton::clicked, this, &WorldViewerWindow::onNextTurnBtnClicked);
+    connect(automaticTurnTimer, &QTimer::timeout, this, &WorldViewerWindow::onAutomaticTurnTimerTick);
+    connect(ui->automaticTurnsCheckBox, &QCheckBox::toggled, this, [=](const bool checked){
+        if (checked) {
+            automaticTurnTimer->start(100);
+        } else {
+            automaticTurnTimer->stop();
+        }
+    });
+    connect(ui->saveStateBtn, &QPushButton::clicked, this, &WorldViewerWindow::onSaveStateBtnClicked);
+    connect(ui->loadStateBtn, &QPushButton::clicked, this, &WorldViewerWindow::onLoadStateBtnClicked);
 
     show();
 
@@ -30,6 +43,18 @@ WorldViewerWindow::~WorldViewerWindow() {
 }
 
 void WorldViewerWindow::init() const
+{
+    drawMap();
+
+    updateWorldView();
+
+    for (const auto& name : spawner.getAvailableOrganismNames())
+    {
+        ui->spawnChooser->addItem(QString::fromStdString(name));
+    }
+}
+
+void WorldViewerWindow::drawMap() const
 {
     const auto w = world.getWidth();
     const auto h = world.getHeight();
@@ -55,19 +80,17 @@ void WorldViewerWindow::init() const
             ui->worldGrid->setColumnWidth(y, columnWidth);
         }
     }
-
-    updateWorldView();
-
-    for (const auto& name : spawner.getAvailableOrganismNames())
-    {
-        ui->spawnChooser->addItem(QString::fromStdString(name));
-    }
 }
 
 void WorldViewerWindow::logMessage(const std::string& message) const
 {
     ui->logBox->addItem(QString::fromStdString(message));
     ui->logBox->scrollToBottom();
+}
+
+bool WorldViewerWindow::isLoggingEnabled() const
+{
+    return ui->enableLogsCheckBox->isChecked();
 }
 
 void WorldViewerWindow::mapOrganismColor(const std::string& species, const QColor& color)
@@ -147,4 +170,64 @@ void WorldViewerWindow::onNextTurnBtnClicked() const
 {
     world.makeTurn();
     updateWorldView();
+}
+
+void WorldViewerWindow::onAutomaticTurnTimerTick() const
+{
+    if (ui->automaticTurnsCheckBox->isChecked()) {
+        ui->nextTurnBtn->click();
+    }
+}
+
+void WorldViewerWindow::onSaveStateBtnClicked()
+{
+    const QString fileName = QFileDialog::getSaveFileName(
+        this,
+        "Zapisz stan świata",
+        "",
+        "Pliki JSON (*.json);;Wszystkie Pliki (*)"
+    );
+
+    if (fileName.isEmpty()) return;
+
+    auto outputFile = std::ofstream(fileName.toStdString());
+
+    if (!outputFile.is_open()) {
+        logMessage("Nie można otworzyć pliku:");
+        logMessage(fileName.toStdString());
+        return;
+    }
+
+    serializer->dump(outputFile, &world);
+
+    logMessage("Zapisano stan świata do pliku:");
+    logMessage(fileName.toStdString());
+}
+
+void WorldViewerWindow::onLoadStateBtnClicked()
+{
+    const QString fileName = QFileDialog::getOpenFileName(
+        this,
+        "Otwórz zapisany stan świata",
+        "",
+        "Pliki JSON (*.json);;Wszystkie Pliki (*)"
+    );
+
+    if (fileName.isEmpty()) return;
+
+    auto inputFile = std::ifstream(fileName.toStdString());
+
+    if (!inputFile.is_open()) {
+        logMessage("Nie można otworzyć pliku:");
+        logMessage(fileName.toStdString());
+        return;
+    }
+
+    serializer->load(inputFile, &world);
+
+    drawMap();
+    updateWorldView();
+
+    logMessage("Załadowano stan świata z pliku:");
+    logMessage(fileName.toStdString());
 }

@@ -3,8 +3,9 @@
 #include <vector>
 #include <string>
 
-#include "Interfaces/IOrganism.h"
+#include "World/Base/Interfaces/IOrganism.h"
 #include "World/Models/AncestorHistoryItem.h"
+#include "Serializer/Base/Interfaces/ISerializable.h"
 
 class OrganismBase : public IOrganism {
     int id;
@@ -50,6 +51,9 @@ public:
     void addAncestorHistoryItem(int births, int deaths);
 
     std::string toString() const override;
+
+    void serialize(Variant& v) override;
+    void deserialize(Variant& source) override;
 
     OrganismBase& operator=(const OrganismBase& other);
     OrganismBase& operator=(OrganismBase&& other) noexcept;

@@ -3,7 +3,7 @@
 #include <functional>
 #include <unordered_map>
 
-#include "UI/Utils/Base/Interfaces/ISpawner.h"
+#include "Base/Interfaces/ISpawner.h"
 #include "World/Creator.h"
 
 class Spawner final : public ISpawner {

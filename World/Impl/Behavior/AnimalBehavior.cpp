@@ -5,11 +5,17 @@
 #include "World/Impl/Action/Reproduce.h"
 #include "World/Models/ActionContext.h"
 
+AnimalBehavior::AnimalBehavior(ReproductionCreatorFunction creator)
+    : creator(std::move(creator))
+{
+
+}
+
 void AnimalBehavior::behave(const ActionContext ctx)
 {
     if (ctx.organism->canReproduce())
     {
-        Reproduce().act(ctx);
+        Reproduce(creator).act(ctx);
     }
 
     const auto ourPower = ctx.organism->getPower();
@@ -26,4 +32,9 @@ void AnimalBehavior::behave(const ActionContext ctx)
     ).act(ctx);
 
     MoveRandomly().act(ctx);
+}
+
+std::string AnimalBehavior::getName() const
+{
+    return "AnimalBehavior";
 }

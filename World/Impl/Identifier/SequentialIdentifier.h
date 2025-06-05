@@ -7,4 +7,7 @@ class SequentialIdentifier final : public IIdentifier {
 
 public:
     int next() override;
+
+    void setState(int state) override;
+    int getState() const override;
 };
