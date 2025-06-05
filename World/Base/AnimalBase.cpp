@@ -32,3 +32,23 @@ void AnimalBase::deserialize(Variant& source)
     lastPosition = Position();
     lastPosition.deserialize(source.getChild("lastPosition"));
 }
+
+AnimalBase& AnimalBase::operator=(const AnimalBase& other)
+{
+    if (this != &other) {
+        OrganismBase::operator=(other);
+        lastPosition = other.getPosition();
+    }
+
+    return *this;
+}
+
+AnimalBase& AnimalBase::operator=(AnimalBase&& other) noexcept
+{
+    if (this != &other) {
+        OrganismBase::operator=(std::move(other));
+        lastPosition = std::move(other.getPosition());
+    }
+
+    return *this;
+}

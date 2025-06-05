@@ -15,4 +15,7 @@ public:
 
     void serialize(Variant& v) override;
     void deserialize(Variant& source) override;
+
+    AnimalBase& operator=(const AnimalBase& other);
+    AnimalBase& operator=(AnimalBase&& other) noexcept;
 };

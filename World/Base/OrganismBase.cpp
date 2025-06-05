@@ -146,6 +146,7 @@ OrganismBase& OrganismBase::operator=(const OrganismBase& other) {
         species = other.species;
         ancestorsHistory = other.ancestorsHistory;
     }
+
     return *this;
 }
 
@@ -160,5 +161,6 @@ OrganismBase& OrganismBase::operator=(OrganismBase&& other) noexcept {
         species = other.species;
         ancestorsHistory = std::move(other.ancestorsHistory);
     }
+
     return *this;
 }
