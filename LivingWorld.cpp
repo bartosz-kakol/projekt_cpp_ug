@@ -20,6 +20,8 @@
 
 #include "UI/WorldViewerWindow.h"
 #include "UI/Utils/UILogger.h"
+#include "World/Impl/Behavior/Plant/ToadstoolBehavior.h"
+#include "World/Impl/Plant/Toadstool.h"
 
 int main(int argc, char* argv[])
 {
@@ -32,11 +34,13 @@ int main(int argc, char* argv[])
 	world.registerSerializationOrganismCreator<Wolf>("Wolf");
 	world.registerSerializationOrganismCreator<Grass>("Grass");
 	world.registerSerializationOrganismCreator<Dandelion>("Dandelion");
+	world.registerSerializationOrganismCreator<Toadstool>("Toadstool");
 
 	world.registerSerializationBehaviorCreator<SheepBehavior>("SheepBehavior");
 	world.registerSerializationBehaviorCreator<WolfBehavior>("WolfBehavior");
 	world.registerSerializationBehaviorCreator<GrassBehavior>("GrassBehavior");
 	world.registerSerializationBehaviorCreator<DandelionBehavior>("DandelionBehavior");
+	world.registerSerializationBehaviorCreator<ToadstoolBehavior>("ToadstoolBehavior");
 
 	auto creator = Creator(world);
 
@@ -45,6 +49,7 @@ int main(int argc, char* argv[])
 	spawner.map<Wolf, WolfBehavior>("Wilk");
 	spawner.map<Grass, GrassBehavior>("Trawa");
 	spawner.map<Dandelion, DandelionBehavior>("Mniszek lekarski");
+	spawner.map<Toadstool, ToadstoolBehavior>("Muchomor");
 
 	WorldViewerWindow win(world, spawner);
 
@@ -54,6 +59,7 @@ int main(int argc, char* argv[])
 	win.mapOrganismColor("Wolf", Qt::darkGray);
 	win.mapOrganismColor("Grass", Qt::darkGreen);
 	win.mapOrganismColor("Dandelion", Qt::green);
+	win.mapOrganismColor("Toadstool", Qt::red);
 
 	return app.exec(); // NOLINT(*-static-accessed-through-instance)
 }

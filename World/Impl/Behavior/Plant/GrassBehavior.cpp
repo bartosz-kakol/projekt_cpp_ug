@@ -7,7 +7,7 @@
 void GrassBehavior::behave(const ActionContext ctx)
 {
     PlantBehavior(
-    [](const int id)
+        [](const int id)
         {
             return std::make_pair(
                 std::make_unique<Grass>(id),
