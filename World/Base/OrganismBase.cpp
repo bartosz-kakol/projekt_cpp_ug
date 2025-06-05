@@ -1,7 +1,11 @@
 #include "OrganismBase.h"
 
-OrganismBase::OrganismBase(const int id)
+#include <iostream>
+#include <__ostream/basic_ostream.h>
+
+OrganismBase::OrganismBase(const int id, const int birthTurn)
     : id(id),
+      birthTurn(birthTurn),
       power(0),
       initiative(0),
       liveLength(-1),
@@ -76,17 +80,42 @@ std::vector<AncestorHistoryItem>& OrganismBase::getAncestorsHistory() {
     return this->ancestorsHistory;
 }
 
-void OrganismBase::addAncestorHistoryItem(const int births, const int deaths) {
-    this->ancestorsHistory.emplace_back(births, deaths);
+void OrganismBase::addAncestorHistoryItem(const int id, const int birthTurn, const int deathTurn) {
+    this->ancestorsHistory.emplace_back(id, birthTurn, deathTurn);
+
+    for (const auto& child : children)
+    {
+        child->addAncestorHistoryItem(id, birthTurn, deathTurn);
+    }
 }
 
 std::string OrganismBase::toString() const {
     return this->getSpecies() + std::to_string(this->getId());
 }
 
+std::vector<IOrganism*>& OrganismBase::getChildren()
+{
+    return children;
+}
+
+void OrganismBase::addChild(IOrganism* child)
+{
+    children.emplace_back(child);
+}
+
+void OrganismBase::notifyChildrenAboutAncestorDeath(const int deathTurn)
+{
+    for (const auto& child : children) {
+        if (child != nullptr) {
+            child->addAncestorHistoryItem(id, birthTurn, deathTurn);
+        }
+    }
+}
+
 void OrganismBase::serialize(Variant& v)
 {
     v.addChild("id", Variant::fromValue(id));
+    v.addChild("birthTurn", Variant::fromValue(birthTurn));
     v.addChild("power", Variant::fromValue(power));
     v.addChild("initiative", Variant::fromValue(initiative));
     v.addChild("liveLength", Variant::fromValue(liveLength));
@@ -113,8 +142,8 @@ void OrganismBase::serialize(Variant& v)
 
 void OrganismBase::deserialize(Variant& source)
 {
-
     id = source.getChild("id").getValueAs<int>();
+    birthTurn = source.getChild("birthTurn").getValueAs<int>();
     power = source.getChild("power").getValueAs<int>();
     initiative = source.getChild("initiative").getValueAs<int>();
     liveLength = source.getChild("liveLength").getValueAs<int>();
@@ -138,6 +167,7 @@ void OrganismBase::deserialize(Variant& source)
 OrganismBase& OrganismBase::operator=(const OrganismBase& other) {
     if (this != &other) {
         id = other.id;
+        birthTurn = other.birthTurn;
         power = other.power;
         initiative = other.initiative;
         liveLength = other.liveLength;
@@ -153,6 +183,7 @@ OrganismBase& OrganismBase::operator=(const OrganismBase& other) {
 OrganismBase& OrganismBase::operator=(OrganismBase&& other) noexcept {
     if (this != &other) {
         id = other.id;
+        birthTurn = other.birthTurn;
         power = other.power;
         initiative = other.initiative;
         liveLength = other.liveLength;

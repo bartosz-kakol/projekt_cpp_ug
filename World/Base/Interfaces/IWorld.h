@@ -21,6 +21,7 @@ public:
     virtual void queueOrganism(std::unique_ptr<IOrganism> organism, std::unique_ptr<IBehavior> behavior) = 0;
     virtual void releaseOrganismQueue() = 0;
     virtual void removeOrganism(int id) = 0;
+    virtual void removeOrganismSilently(int id) = 0;
 
     virtual void clear() = 0;
 

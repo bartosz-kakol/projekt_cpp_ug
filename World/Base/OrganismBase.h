@@ -5,10 +5,10 @@
 
 #include "World/Base/Interfaces/IOrganism.h"
 #include "World/Models/AncestorHistoryItem.h"
-#include "Serializer/Base/Interfaces/ISerializable.h"
 
 class OrganismBase : public IOrganism {
     int id;
+    int birthTurn;
     int power;
     int initiative;
     int liveLength;
@@ -16,9 +16,10 @@ class OrganismBase : public IOrganism {
     Position position;
     std::string species;
     std::vector<AncestorHistoryItem> ancestorsHistory;
+    std::vector<IOrganism*> children;
 
 public:
-    explicit OrganismBase(int id);
+    explicit OrganismBase(int id, int birthTurn);
     OrganismBase(const OrganismBase& other) = default;
     OrganismBase(OrganismBase&& other) noexcept = default;
 
@@ -47,10 +48,15 @@ public:
 
     bool canReproduce() const override;
 
-    std::vector<AncestorHistoryItem>& getAncestorsHistory();
-    void addAncestorHistoryItem(int births, int deaths);
+    std::vector<AncestorHistoryItem>& getAncestorsHistory() override;
+    void addAncestorHistoryItem(int id, int birthTurn, int deathTurn) override;
 
     std::string toString() const override;
+
+    std::vector<IOrganism*>& getChildren() override;
+    void addChild(IOrganism* child) override;
+
+    void notifyChildrenAboutAncestorDeath(int deathTurn) override;
 
     void serialize(Variant& v) override;
     void deserialize(Variant& source) override;

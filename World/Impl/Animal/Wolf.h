@@ -4,7 +4,7 @@
 
 class Wolf final : public AnimalBase {
 public:
-    explicit Wolf(int id);
+    explicit Wolf(int id, int birthTurn);
 
     void init() override;
 };

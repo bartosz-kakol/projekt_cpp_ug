@@ -27,11 +27,14 @@ void Reproduce::act(const ActionContext ctx)
     const int randomIndex = dist(rng);
 
     log(ctx, "Rozmnażanie się.");
+
     const auto& id = ctx.world.getIdentifier()->next();
-    auto [organism, behavior] = creator(id);
+    const auto& birthTurn = ctx.world.getTurn();
+    auto [organism, behavior] = creator(id, birthTurn);
     organism->init();
     organism->setPosition(freePositionsAround[randomIndex]);
 
     ctx.organism->setPower(ctx.organism->getPower() / 2);
+    ctx.organism->addChild(organism.get());
     ctx.world.queueOrganism(std::move(organism), std::move(behavior));
 }

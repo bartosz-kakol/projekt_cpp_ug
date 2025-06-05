@@ -6,5 +6,5 @@ class PlantBase : public OrganismBase {
 public:
     using OrganismBase::init;
 
-    explicit PlantBase(int id);
+    explicit PlantBase(int id, int birthTurn);
 };

@@ -1,7 +1,7 @@
 #include "Dandelion.h"
 
-Dandelion::Dandelion(const int id)
-    : PlantBase(id)
+Dandelion::Dandelion(const int id, const int birthTurn)
+    : PlantBase(id, birthTurn)
 {
 }
 

@@ -82,15 +82,38 @@ void World::releaseOrganismQueue()
     queue.clear();
 }
 
-void World::removeOrganism(int id) {
+void World::removeOrganism(const int id, const bool silently)
+{
+    const auto& currentTurn = turn;
+
     const auto iter = std::remove_if(
         organisms.begin(), organisms.end(),
-        [id](const OrganismRecord& record)
+        [id, silently, currentTurn](const OrganismRecord& record)
         {
-           return record.organism->getId() == id;
+            if (record.organism->getId() == id)
+            {
+                if (!silently)
+                {
+                    record.organism->notifyChildrenAboutAncestorDeath(currentTurn);
+                }
+
+                return true;
+            }
+
+            return false;
         }
     );
     organisms.erase(iter, organisms.end());
+}
+
+void World::removeOrganism(const int id)
+{
+    removeOrganism(id, false);
+}
+
+void World::removeOrganismSilently(const int id)
+{
+    removeOrganism(id, true);
 }
 
 void World::clear()
@@ -211,6 +234,7 @@ void World::makeTurn() {
 
             if (org->getLiveLength() == 0) {
                 ActionBase::logger->log(org->toString() + " umarło ze starości.");
+                record.organism->notifyChildrenAboutAncestorDeath(turn);
                 return true;
             }
 

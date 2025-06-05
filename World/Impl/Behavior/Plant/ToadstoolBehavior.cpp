@@ -9,10 +9,10 @@
 void ToadstoolBehavior::behave(const ActionContext ctx)
 {
     PlantBehavior(
-        [](const int id)
+        [](const int id, const int birthTurn)
         {
             return std::make_pair(
-                std::make_unique<Toadstool>(id),
+                std::make_unique<Toadstool>(id, birthTurn),
                 std::make_unique<ToadstoolBehavior>()
             );
         }

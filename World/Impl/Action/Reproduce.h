@@ -4,7 +4,7 @@
 #include "World/Base/OrganismBase.h"
 #include "World/Base/Interfaces/IBehavior.h"
 
-typedef std::function<std::pair<std::unique_ptr<OrganismBase>, std::unique_ptr<IBehavior>>(int)> ReproductionCreatorFunction;
+typedef std::function<std::pair<std::unique_ptr<OrganismBase>, std::unique_ptr<IBehavior>>(int, int)> ReproductionCreatorFunction;
 
 class Reproduce final : public ActionBase {
     ReproductionCreatorFunction creator;

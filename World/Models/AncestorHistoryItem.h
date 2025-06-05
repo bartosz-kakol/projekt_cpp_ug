@@ -6,8 +6,9 @@
 class AncestorHistoryItem final : public ISerializable
 {
 public:
-    AncestorHistoryItem(int births = 0, int deaths = 0);
+    explicit AncestorHistoryItem(int id = -1, int births = -1, int deaths = -1);
 
+    int id;
     int births;
     int deaths;
 

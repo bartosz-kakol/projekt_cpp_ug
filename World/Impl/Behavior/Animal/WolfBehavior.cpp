@@ -7,10 +7,10 @@
 void WolfBehavior::behave(const ActionContext ctx)
 {
     AnimalBehavior(
-        [](const int id)
+        [](const int id, const int birthTurn)
         {
             return std::make_pair(
-                std::make_unique<Wolf>(id),
+                std::make_unique<Wolf>(id, birthTurn),
                 std::make_unique<WolfBehavior>()
             );
         }

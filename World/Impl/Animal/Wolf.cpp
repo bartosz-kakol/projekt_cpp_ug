@@ -1,7 +1,7 @@
 #include "Wolf.h"
 
-Wolf::Wolf(const int id)
-    : AnimalBase(id)
+Wolf::Wolf(const int id, const int birthTurn)
+    : AnimalBase(id, birthTurn)
 {
 
 }

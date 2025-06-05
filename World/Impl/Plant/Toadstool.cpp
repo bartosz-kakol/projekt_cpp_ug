@@ -1,7 +1,7 @@
 #include "Toadstool.h"
 
-Toadstool::Toadstool(const int id)
-    : PlantBase(id)
+Toadstool::Toadstool(const int id, const int birthTurn)
+    : PlantBase(id, birthTurn)
 {
 
 }

@@ -33,8 +33,8 @@ public:
 
     template<typename T>
     static Variant fromValue(T value);
-
     static Variant sequential();
+    static Variant none();
 
     template<typename T>
     static Variant sequential(std::vector<T> values);

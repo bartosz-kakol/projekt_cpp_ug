@@ -1,7 +1,7 @@
 #include "AnimalBase.h"
 
-AnimalBase::AnimalBase(const int id)
-    : OrganismBase(id)
+AnimalBase::AnimalBase(const int id, const int birthTurn)
+    : OrganismBase(id, birthTurn)
 {
 
 }

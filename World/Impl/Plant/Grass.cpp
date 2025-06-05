@@ -1,7 +1,7 @@
 #include "Grass.h"
 
-Grass::Grass(const int id)
-    : PlantBase(id)
+Grass::Grass(const int id, const int birthTurn)
+    : PlantBase(id, birthTurn)
 {
 
 }

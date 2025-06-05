@@ -4,7 +4,7 @@
 
 class Sheep final : public AnimalBase {
 public:
-    explicit Sheep(int id);
+    explicit Sheep(int id, int birthTurn);
 
     void init() override;
 };

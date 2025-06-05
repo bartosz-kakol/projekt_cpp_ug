@@ -4,7 +4,7 @@
 
 class Grass final : public PlantBase {
 public:
-    explicit Grass(int id);
+    explicit Grass(int id, int birthTurn);
 
     void init() override;
 };

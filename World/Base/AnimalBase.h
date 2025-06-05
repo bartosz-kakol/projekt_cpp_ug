@@ -8,7 +8,7 @@ class AnimalBase : public OrganismBase {
 public:
     using OrganismBase::init;
 
-    explicit AnimalBase(int id);
+    explicit AnimalBase(int id, int birthTurn);
 
     void setPosition(Position position) override;
     Position getLastPosition() const;

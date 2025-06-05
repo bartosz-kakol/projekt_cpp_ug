@@ -40,7 +40,10 @@ public:
     void addOrganism(std::unique_ptr<IOrganism> organism, std::unique_ptr<IBehavior> behavior) override;
     void queueOrganism(std::unique_ptr<IOrganism> organism, std::unique_ptr<IBehavior> behavior) override;
     void releaseOrganismQueue() override;
+
+    void removeOrganism(int id, bool silently);
     void removeOrganism(int id) override;
+    void removeOrganismSilently(int id) override;
 
     void clear() override;
 

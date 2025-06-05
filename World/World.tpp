@@ -6,9 +6,9 @@ void World::registerSerializationOrganismCreator(const std::string& species)
     static_assert(std::is_base_of_v<IOrganism, OrganismT>,
                   "OrganismT musi dziedziczyć pod IOrganism");
 
-    serializationOrganismCreators[species] = []()
+    serializationOrganismCreators[species] = [this]()
     {
-        return std::make_unique<OrganismT>(-1);
+        return std::make_unique<OrganismT>(identifier->next(), turn);
     };
 }
 

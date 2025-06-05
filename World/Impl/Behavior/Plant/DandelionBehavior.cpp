@@ -7,10 +7,10 @@
 void DandelionBehavior::behave(const ActionContext ctx)
 {
     PlantBehavior(
-        [](const int id)
+        [](const int id, const int birthTurn)
         {
             return std::make_pair(
-                std::make_unique<Dandelion>(id),
+                std::make_unique<Dandelion>(id, birthTurn),
                 std::make_unique<DandelionBehavior>()
             );
         }

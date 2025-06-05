@@ -1,7 +1,7 @@
 #include "Sheep.h"
 
-Sheep::Sheep(const int id)
-    : AnimalBase(id)
+Sheep::Sheep(const int id, const int birthTurn)
+    : AnimalBase(id, birthTurn)
 {
 
 }

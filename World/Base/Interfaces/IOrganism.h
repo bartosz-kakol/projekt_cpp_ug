@@ -1,5 +1,6 @@
 #pragma once
 
+#include "World/Models/AncestorHistoryItem.h"
 #include "World/Models/Position.h"
 
 class IOrganism : public ISerializable {
@@ -28,6 +29,14 @@ public:
     virtual void setId(int id) = 0;
 
     virtual bool canReproduce() const = 0;
+
+    virtual std::vector<AncestorHistoryItem>& getAncestorsHistory() = 0;
+    virtual void addAncestorHistoryItem(int id, int birthTurn, int deathTurn) = 0;
+
+    virtual std::vector<IOrganism*>& getChildren() = 0;
+    virtual void addChild(IOrganism* child) = 0;
+
+    virtual void notifyChildrenAboutAncestorDeath(int deathTurn) = 0;
 
     virtual std::string toString() const = 0;
 };

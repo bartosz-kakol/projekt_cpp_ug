@@ -38,6 +38,11 @@ Variant Variant::sequential()
     return {SpecialVariantValue::Sequential, VariantType::Special};
 }
 
+Variant Variant::none()
+{
+    return {SpecialVariantValue::None, VariantType::Special};
+}
+
 std::any Variant::getValue() const
 {
     return value;
